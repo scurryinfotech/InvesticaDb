@@ -284,5 +284,39 @@ VALUES
 
 GO
 
+CREATE TABLE Tickets( Id INT IDENTITY(1,1) PRIMARY KEY,
+                      CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+                      EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
+                      LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
+                      StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+                      Description NVARCHAR(MAX),
+                      TrackingNumber VARCHAR(100),
+                      ValidTill DATETIME NULL,
+                      CreatedDate DATETIME  NULL DEFAULT GETDATE(),
+                      CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
+                      ModifiedDate DATETIME  NULL,
+                      ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
+
+
+                      );
+
+
+Go
+
+CREATE TABLE UpcomingRenewals
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+    LicenseTypeId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
+    Location NVARCHAR(200) NOT NULL,
+    CurrentExpiryDate DATE NOT NULL DEFAULT GETDATE(),
+    RenewalDueDate DATE NOT NULL,
+    StatusId INT NOT NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+    CreatedDate DATETIME NULL DEFAULT GETDATE(),
+    CreatedBy INT NULL FOREIGN KEY REFERENCES Employees(Id),
+    ModifiedDate DATETIME NULL,
+    ModifiedBy INT NULL FOREIGN KEY REFERENCES Employees(Id),
+    IsActive BIT NOT NULL DEFAULT(1)
+);
 
 
