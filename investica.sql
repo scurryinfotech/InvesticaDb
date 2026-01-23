@@ -320,3 +320,76 @@ CREATE TABLE UpcomingRenewals
 );
 
 
+GO
+CREATE TABLE FontSheet
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyId INT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+    EntityName NVARCHAR(500) NOT NULL,
+    Address NVARCHAR(1000) NOT NULL,
+    Phone NVARCHAR(20) NULL,
+    Email NVARCHAR(300) NULL,
+    PromoterNameAddress NVARCHAR(1000) NULL,
+    EntityType NVARCHAR(300) NULL,
+    NatureOfBusiness NVARCHAR(300) NULL,
+    PanAadhar NVARCHAR(50) NULL,
+    EntityPan NVARCHAR(50) NULL,
+    DOB DATE NULL,
+    Gender NVARCHAR(10) NULL,
+    MaritalStatus NVARCHAR(50) NULL,
+    FatherMotherSpouseName NVARCHAR(300) NULL,
+    Area NVARCHAR(200) NULL,
+    Ward NVARCHAR(200) NULL,
+    Zone NVARCHAR(200) NULL,
+    ProductServiceSold NVARCHAR(1000) NULL,
+    ClientSource NVARCHAR(500) NULL,
+    SourcedByEmpId INT NULL FOREIGN KEY REFERENCES Employees(Id),
+    Comments NVARCHAR(MAX) NULL,
+    Login NVARCHAR(200) NULL,
+    Password NVARCHAR(500) NULL,   
+    CreatedDate DATETIME  DEFAULT GETDATE(),
+    CreatedBy INT  FOREIGN KEY REFERENCES Employees(Id),
+    ModifiedDate DATETIME NULL,
+    ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
+    IsActive BIT NOT NULL DEFAULT(1)
+);
+
+GO
+
+CREATE TABLE ShopCategoryLinks
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    StateName NVARCHAR(200) NOT NULL,
+    Url NVARCHAR(1000) NULL,
+    IsActive BIT NOT NULL DEFAULT(1),
+    CreatedDate DATETIME NULL DEFAULT GETDATE(),
+    CreatedBy INT NULL FOREIGN KEY REFERENCES Employees(Id)
+);
+
+INSERT INTO dbo.ShopCategoryLinks (StateName, Url, CreatedBy, IsActive) 
+VALUES ('MAHARASHTRA (MUMBAI)','https://portal.mcgm.gov.in/irj/portal/anonymous/qlsaeoService',1,1),
+('REST OF MAHARASHTRA','https://maitri.mahsonline.gov.in/Login/Logni',1,1),
+('KARNATAKA','http://164.100.133.176/ekarnika/Static/Home.aspx',1,1),
+('DELHI','http://labourcis.nic.in/',1,1),
+('MADHYA PRADESH','http://www.labour.mp.gov.in/Esr/public/Establishment_Apply.aspx',1,1),
+('ANDHRA PRADESH','https://ineap.meeseva.gov.in/CitizenPortal/UserInterface/Citizen/CitizenHome',1,1),
+('WEST BENGAL','https://wbshopsonline.gov.in/#',1,1),
+('KERALA','https://cas.lc.kerala.gov.in/office/registration/onlinemain_online_pay.php',1,1),
+('TAMIL NADU','https://labour.tn.gov.in/services/users/login',1,1),('GUJARAT','OFFLINE',1,1);
+
+GO
+
+CREATE TABLE dbo.TradeCategoryLinks
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CorporationName NVARCHAR(300) NOT NULL,
+    Website NVARCHAR(1000) NULL,
+    IsActive BIT NOT NULL DEFAULT(1),
+    CreatedDate DATETIME  DEFAULT GETDATE(),
+    CreatedBy INT  FOREIGN KEY REFERENCES Employees(Id)
+);
+INSERT INTO dbo.TradeCategoryLinks (CorporationName, Website, CreatedBy, IsActive) 
+VALUES ('NAVI MUMBAI MUNICIPAL CORPORATION','https://www.nmmc.gov.in/',1,1),
+('THANE MUNICIPAL CORPORATION','https://thanecity.gov.in/tmc/CitizenHome.html',1,1),
+('KALYAN-DOMBIVALI MUNICIPAL CORPORATION','https://kdmc.gov.in/kdmc/CitizenHome.html',1,1),
+('MUMBAI MUNICIPAL CORPORATION','https://mcgm.gov.in/',1,1);
