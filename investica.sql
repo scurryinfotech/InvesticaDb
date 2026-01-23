@@ -393,3 +393,29 @@ VALUES ('NAVI MUMBAI MUNICIPAL CORPORATION','https://www.nmmc.gov.in/',1,1),
 ('THANE MUNICIPAL CORPORATION','https://thanecity.gov.in/tmc/CitizenHome.html',1,1),
 ('KALYAN-DOMBIVALI MUNICIPAL CORPORATION','https://kdmc.gov.in/kdmc/CitizenHome.html',1,1),
 ('MUMBAI MUNICIPAL CORPORATION','https://mcgm.gov.in/',1,1);
+
+
+
+
+CREATE TABLE Invoice
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    InvoiceNumber NVARCHAR(200) NOT NULL Unique,
+    InvoiceTo  Nvarchar(300) Null,
+    GstNoTo NVARCHAR (300) NOT NULL,
+
+    InvoiceFrom Nvarchar(300) Null, 
+    GstNoFrom NVARCHAR (300) NOT NULL,
+    
+    Particulars Nvarchar(300) Null, 
+    GrossAmoutRs NVARCHAR(300) NOT NULL,
+    NetAmoutRsm NVARCHAR(300) NOT NULL,
+    SubTotal NVARCHAR(300) NOT NULL,
+    IGST INT NOT NULL,
+    NetTotal NVARCHAR(300) NOT NULL,
+    CreatedDate DATETIME NULL DEFAULT GETDATE(),
+    CreatedBy INT NULL FOREIGN KEY REFERENCES Employees(Id),
+    ModifiedDate DATETIME NULL,
+    ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
+    IsActive BIT NOT NULL DEFAULT(1)
+    );
