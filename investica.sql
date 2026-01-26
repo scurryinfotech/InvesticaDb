@@ -47,7 +47,7 @@ GO
 CREATE TABLE [dbo].[DocumentTable](
 	[Id] [int] IDENTITY(1,1)  PRIMARY KEY NOT NULL,
 	[Name] [varchar](300) NOT NULL,
-	[Logo] [varbinary](max) NOT NULL,
+	[Data] [varbinary](max) NOT NULL,
 	[CreatedDate] [datetime] NULL,
 	CreatedBy int   FOREIGN KEY REFERENCES Employees(Id) ,
     ModifiedDate datetime Null ,
@@ -57,8 +57,8 @@ CREATE TABLE [dbo].[DocumentTable](
 
 GO
 
-INSERT INTO dbo.DocumentTable (Name, Logo, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
-VALUES ('Dummy Document', 0x0102030405, GETDATE(), 1, GETDATE(), 1, 1);
+INSERT INTO dbo.DocumentTable (Name, Data, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
+VALUES ('Dummy Document', '0x0102030405', GETDATE(), 1, GETDATE(), 1, 1);
 
 GO
 
@@ -296,6 +296,7 @@ CREATE TABLE Tickets
     EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
     LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
     StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+    CompanyAddress NVARCHAR(1000) NOT NULL,
     Description NVARCHAR(MAX),
     TrackingNumber VARCHAR(100),
     ValidTill DATETIME NULL,
