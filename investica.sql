@@ -409,55 +409,26 @@ CREATE TABLE Invoice
     IsActive BIT NOT NULL DEFAULT(1)
 );
 
+GO
+TrackingNumber INT NOT NULL
+    DEFAULT NEXT VALUE FOR TicketTrackingSeq
+Go
 
---below is script of ticket
-CREATE TABLE [dbo].[Tickets](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[CompanyId] [int] NOT NULL,
-	[EmployeeId] [int] NOT NULL,
-	[LicenseId] [int] NOT NULL,
-	[StatusId] [int] NOT NULL,
-	[CompanyAddress] [nvarchar](1000) NOT NULL,
-	[Description] [nvarchar](max) NULL,
-	[TrackingNumber] [int] NULL,
-	[ValidTill] [datetime] NULL,
-	[CreatedDate] [datetime] NULL,
-	[CreatedBy] [int] NULL,
-	[ModifiedDate] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
-PRIMARY KEY CLUSTERED 
+CREATE TABLE Tickets
 (
-	[Id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
+    LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
+    StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+    CompanyAddress NVARCHAR(1000) NOT NULL,
+    Description NVARCHAR(MAX),
+    TrackingNumber INT NOT NULL,
+    ValidTill DATETIME NULL,
+    CreatedDate DATETIME  NULL DEFAULT GETDATE(),
+    CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
+    ModifiedDate DATETIME  NULL,
+    ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
+);
 
-ALTER TABLE [dbo].[Tickets] ADD  DEFAULT (getdate()) FOR [CreatedDate]
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([CompanyId])
-REFERENCES [dbo].[CompanyMaster] ([Id])
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([CreatedBy])
-REFERENCES [dbo].[Employees] ([Id])
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([EmployeeId])
-REFERENCES [dbo].[Employees] ([Id])
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([LicenseId])
-REFERENCES [dbo].[LicenseTypeMaster] ([Id])
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([ModifiedBy])
-REFERENCES [dbo].[Employees] ([Id])
-GO
-
-ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([StatusId])
-REFERENCES [dbo].[StatusMaster] ([Id])
-GO
-
-
---THis is script 
+ 
