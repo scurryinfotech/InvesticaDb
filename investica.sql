@@ -289,22 +289,22 @@ VALUES
 
 GO
 
-CREATE TABLE Tickets
-(
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
-    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
-    LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
-    StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
-    CompanyAddress NVARCHAR(1000) NOT NULL,
-    Description NVARCHAR(MAX),
-    TrackingNumber VARCHAR(100),
-    ValidTill DATETIME NULL,
-    CreatedDate DATETIME  NULL DEFAULT GETDATE(),
-    CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
-    ModifiedDate DATETIME  NULL,
-    ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
-);
+-- CREATE TABLE Tickets
+-- (
+--     Id INT IDENTITY(1,1) PRIMARY KEY,
+--     CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+--     EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
+--     LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
+--     StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+--     CompanyAddress NVARCHAR(1000) NOT NULL,
+--     Description NVARCHAR(MAX),
+--     TrackingNumber VARCHAR(100),
+--     ValidTill DATETIME NULL,
+--     CreatedDate DATETIME  NULL DEFAULT GETDATE(),
+--     CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
+--     ModifiedDate DATETIME  NULL,
+--     ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
+-- );
 
 GO
 
@@ -410,6 +410,12 @@ CREATE TABLE Invoice
 );
 
 GO
+	CREATE SEQUENCE TicketTrackingSeq
+START WITH 1001
+INCREMENT BY 1;
+
+	Go 
+	
 TrackingNumber INT NOT NULL
     DEFAULT NEXT VALUE FOR TicketTrackingSeq
 Go
