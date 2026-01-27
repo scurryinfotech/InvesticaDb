@@ -408,3 +408,56 @@ CREATE TABLE Invoice
     ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
+
+
+--below is script of ticket
+CREATE TABLE [dbo].[Tickets](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CompanyId] [int] NOT NULL,
+	[EmployeeId] [int] NOT NULL,
+	[LicenseId] [int] NOT NULL,
+	[StatusId] [int] NOT NULL,
+	[CompanyAddress] [nvarchar](1000) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[TrackingNumber] [int] NULL,
+	[ValidTill] [datetime] NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [int] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Tickets] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([CompanyId])
+REFERENCES [dbo].[CompanyMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([CreatedBy])
+REFERENCES [dbo].[Employees] ([Id])
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([EmployeeId])
+REFERENCES [dbo].[Employees] ([Id])
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([LicenseId])
+REFERENCES [dbo].[LicenseTypeMaster] ([Id])
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([ModifiedBy])
+REFERENCES [dbo].[Employees] ([Id])
+GO
+
+ALTER TABLE [dbo].[Tickets]  WITH CHECK ADD FOREIGN KEY([StatusId])
+REFERENCES [dbo].[StatusMaster] ([Id])
+GO
+
+
+--THis is script 
