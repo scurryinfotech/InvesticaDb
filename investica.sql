@@ -8,17 +8,17 @@ CREATE TABLE dbo.RoleMaster
     ModifiedBy int NULL,
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
+ 
 GO
-
+ 
 INSERT INTO RoleMaster( Name )
 VALUES ('Admin'), ('Editor'), ('User');
-
+ 
 GO
-
-CREATE TABLE Employees 
+ 
+CREATE TABLE Employees
 (
-    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL, 
+    Id INT IDENTITY(1,1) PRIMARY KEY NOT NULL,
     Name NVARCHAR(300) NOT NULL ,
     Email NVARCHAR(300) Not Null Unique,
     Role INT FOREIGN KEY REFERENCES RoleMaster(Id),
@@ -28,10 +28,10 @@ CREATE TABLE Employees
     ModifiedBy int FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
+ 
 GO
-
-INSERT INTO Employees (Name, Email, Role, CreatedDate,CreatedBy,ModifiedDate, ModifiedBy, IsActive) 
+ 
+INSERT INTO Employees (Name, Email, Role, CreatedDate,CreatedBy,ModifiedDate, ModifiedBy, IsActive)
 VALUES ('ABIR AIKATH','abiraikath@gmail.com',1,GETDATE(),1,GETDATE(),1,1),
 ('AAYUSHI GAMI','gamiaayushi@gmail.com',2,GETDATE(),1,GETDATE(),1,1),
 ('KARAN SINGH','karan.investica@gmail.com',2,GETDATE(),1,GETDATE(),1,1),
@@ -41,27 +41,27 @@ VALUES ('ABIR AIKATH','abiraikath@gmail.com',1,GETDATE(),1,GETDATE(),1,1),
 ('SHUBHAM KANOJIYA','shubham.investica@gmail.com',3,GETDATE(),1,GETDATE(),1,1),
 ('RIDDHI DERE','riddhi14investica@gmail.com',3,GETDATE(),1,GETDATE(),1,1),
 ('SHITAL SHINDE','sital.investica@gmail.com',3,GETDATE(),1,GETDATE(),1,1);
-
+ 
 GO
-
+ 
 CREATE TABLE [dbo].[DocumentTable](
-	[Id] [int] IDENTITY(1,1)  PRIMARY KEY NOT NULL,
-	[Name] [varchar](300) NOT NULL,
-	[Data] [varbinary](max) NOT NULL,
-	[CreatedDate] [datetime] NULL,
-	CreatedBy int   FOREIGN KEY REFERENCES Employees(Id) ,
+    [Id] [int] IDENTITY(1,1)  PRIMARY KEY NOT NULL,
+    [Name] [varchar](300) NOT NULL,
+    [Data] [varbinary] NOT NULL,
+    [CreatedDate] [datetime] NULL,
+    CreatedBy int   FOREIGN KEY REFERENCES Employees(Id) ,
     ModifiedDate datetime Null ,
     ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
-	[IsActive] [bit] NULL
+    [IsActive] [bit] NULL
 );
-
+ 
 GO
-
+ 
 INSERT INTO dbo.DocumentTable (Name, Data, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
-VALUES ('Dummy Document', '0x0102030405', GETDATE(), 1, GETDATE(), 1, 1);
-
+VALUES ('Dummy Document', 0x0102030405, GETDATE(), 1, GETDATE(), 1, 1);
+ 
 GO
-
+ 
 CREATE TABLE dbo.CompanyMaster
 (
     Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -74,9 +74,9 @@ CREATE TABLE dbo.CompanyMaster
     DocumentId INT FOREIGN KEY REFERENCES dbo.DocumentTable(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
+ 
 GO
-
+ 
 INSERT INTO dbo.CompanyMaster (Unikey, CompanyName, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
 VALUES
 ('AANSWR_FASHION_PRIVATE_LIMITED_THE_PANT_PROJECT','AANSWR FASHION PRIVATE LIMITED (THE PANT PROJECT)',GETDATE(),1,GETDATE(),1,1),
@@ -155,9 +155,9 @@ VALUES
 ('BHARTI_OVERSEAS_PRIVATE_LIMITED','BHARTI OVERSEAS PRIVATE LIMITED',GETDATE(),1,GETDATE(),1,1),
 ('SUTRAHAUSPROJECT_LLP','SUTRAHAUSPROJECT LLP',GETDATE(),1,GETDATE(),1,1),
 ('BODHI_WELLNESS','BODHI WELLNESS',GETDATE(),1,GETDATE(),1,1);
-
+ 
 GO
-
+ 
 CREATE TABLE dbo.LicenseTypeMaster
 (
     Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -169,10 +169,10 @@ CREATE TABLE dbo.LicenseTypeMaster
     ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1),
 );
-
+ 
 GO
-
-INSERT INTO dbo.LicenseTypeMaster (Unikey, AppTypeName, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive) 
+ 
+INSERT INTO dbo.LicenseTypeMaster (Unikey, AppTypeName, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
 VALUES
 ('GMST_APP','GMST APP',GETDATE(),1,GETDATE(),1,1),
 ('GMST_RENEWAL','GMST RENEWAL',GETDATE(),1,GETDATE(),1,1),
@@ -261,9 +261,9 @@ VALUES
 ('POSH_ANNUAL_RETURN','POSH ANNUAL RETURN',GETDATE(),1,GETDATE(),1,1),
 ('CHANGE_IN_USE','CHANGE IN USE',GETDATE(),1,GETDATE(),1,1),
 ('SIGNAGE_NAME_CHANGE','SIGNAGE NAME CHANGE',GETDATE(),1,GETDATE(),1,1);
-
+ 
 GO
-
+ 
 CREATE TABLE dbo.StatusMaster
 (
     Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -275,10 +275,10 @@ CREATE TABLE dbo.StatusMaster
     ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
+ 
 GO
-
-INSERT INTO dbo.StatusMaster (Unikey, StatusName, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive) 
+ 
+INSERT INTO dbo.StatusMaster (Unikey, StatusName, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy, IsActive)
 VALUES
 ('OBTAINED','OBTAINED',GETDATE(),1,GETDATE(),1,1),
 ('UNDER_PROCESS','UNDER PROCESS',GETDATE(),1,GETDATE(),1,1),
@@ -286,28 +286,34 @@ VALUES
 ('CLOSED','CLOSED',GETDATE(),1,GETDATE(),1,1),
 ('DORMANT','DORMANT',GETDATE(),1,GETDATE(),1,1),
 ('REVERT_BACK','REVERT BACK',GETDATE(),1,GETDATE(),1,1);
-
+ 
 GO
-
--- CREATE TABLE Tickets
--- (
---     Id INT IDENTITY(1,1) PRIMARY KEY,
---     CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
---     EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
---     LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
---     StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
---     CompanyAddress NVARCHAR(1000) NOT NULL,
---     Description NVARCHAR(MAX),
---     TrackingNumber VARCHAR(100),
---     ValidTill DATETIME NULL,
---     CreatedDate DATETIME  NULL DEFAULT GETDATE(),
---     CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
---     ModifiedDate DATETIME  NULL,
---     ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
--- );
-
+ 
+CREATE SEQUENCE TicketTrackingSeq
+START WITH 1001
+INCREMENT BY 1;
+ 
+Go
+ 
+CREATE TABLE Tickets
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
+    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
+    LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
+    StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
+    CompanyAddress NVARCHAR(1000) NOT NULL,
+    Description NVARCHAR(MAX),
+    TrackingNumber INT NOT NULL DEFAULT NEXT VALUE FOR TicketTrackingSeq,
+    ValidTill DATETIME NULL,
+    CreatedDate DATETIME  NULL DEFAULT GETDATE(),
+    CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
+    ModifiedDate DATETIME  NULL,
+    ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
+);
+ 
 GO
-
+ 
 CREATE TABLE FontSheet
 (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -333,16 +339,16 @@ CREATE TABLE FontSheet
     SourcedByEmpId INT NULL FOREIGN KEY REFERENCES Employees(Id),
     Comments NVARCHAR(MAX) NULL,
     Login NVARCHAR(200) NULL,
-    Password NVARCHAR(500) NULL,   
+    Password NVARCHAR(500) NULL,  
     CreatedDate DATETIME  DEFAULT GETDATE(),
     CreatedBy INT  FOREIGN KEY REFERENCES Employees(Id),
     ModifiedDate DATETIME NULL,
     ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
+ 
 GO
-
+ 
 CREATE TABLE ShopCategoryLinks
 (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -352,10 +358,10 @@ CREATE TABLE ShopCategoryLinks
     CreatedDate DATETIME NULL DEFAULT GETDATE(),
     CreatedBy INT NULL FOREIGN KEY REFERENCES Employees(Id)
 );
-
+ 
 GO
-
-INSERT INTO dbo.ShopCategoryLinks (StateName, Url, CreatedBy, IsActive) 
+ 
+INSERT INTO dbo.ShopCategoryLinks (StateName, Url, CreatedBy, IsActive)
 VALUES ('MAHARASHTRA (MUMBAI)','https://portal.mcgm.gov.in/irj/portal/anonymous/qlsaeoService',1,1),
 ('REST OF MAHARASHTRA','https://maitri.mahsonline.gov.in/Login/Logni',1,1),
 ('KARNATAKA','http://164.100.133.176/ekarnika/Static/Home.aspx',1,1),
@@ -365,9 +371,9 @@ VALUES ('MAHARASHTRA (MUMBAI)','https://portal.mcgm.gov.in/irj/portal/anonymous/
 ('WEST BENGAL','https://wbshopsonline.gov.in/#',1,1),
 ('KERALA','https://cas.lc.kerala.gov.in/office/registration/onlinemain_online_pay.php',1,1),
 ('TAMIL NADU','https://labour.tn.gov.in/services/users/login',1,1),('GUJARAT','OFFLINE',1,1);
-
+ 
 GO
-
+ 
 CREATE TABLE dbo.TradeCategoryLinks
 (
     Id INT IDENTITY(1,1) PRIMARY KEY,
@@ -377,26 +383,26 @@ CREATE TABLE dbo.TradeCategoryLinks
     CreatedDate DATETIME  DEFAULT GETDATE(),
     CreatedBy INT  FOREIGN KEY REFERENCES Employees(Id)
 );
-
+ 
 GO
-
-INSERT INTO dbo.TradeCategoryLinks (CorporationName, Website, CreatedBy, IsActive) 
+ 
+INSERT INTO dbo.TradeCategoryLinks (CorporationName, Website, CreatedBy, IsActive)
 VALUES ('NAVI MUMBAI MUNICIPAL CORPORATION','https://www.nmmc.gov.in/',1,1),
 ('THANE MUNICIPAL CORPORATION','https://thanecity.gov.in/tmc/CitizenHome.html',1,1),
 ('KALYAN-DOMBIVALI MUNICIPAL CORPORATION','https://kdmc.gov.in/kdmc/CitizenHome.html',1,1),
 ('MUMBAI MUNICIPAL CORPORATION','https://mcgm.gov.in/',1,1);
-
+ 
 GO
-
+ 
 CREATE TABLE Invoice
 (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     InvoiceNumber NVARCHAR(200) NOT NULL Unique,
     InvoiceTo  Nvarchar(300) Null,
     GstNoTo NVARCHAR (300) NOT NULL,
-    InvoiceFrom Nvarchar(300) Null, 
+    InvoiceFrom Nvarchar(300) Null,
     GstNoFrom NVARCHAR (300) NOT NULL,
-    Particulars Nvarchar(300) Null, 
+    Particulars Nvarchar(300) Null,
     GrossAmoutRs NVARCHAR(300) NOT NULL,
     NetAmoutRsm NVARCHAR(300) NOT NULL,
     SubTotal NVARCHAR(300) NOT NULL,
@@ -408,33 +414,3 @@ CREATE TABLE Invoice
     ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
-
-GO
-	CREATE SEQUENCE TicketTrackingSeq
-START WITH 1001
-INCREMENT BY 1;
-
-	Go 
-	
-TrackingNumber INT NOT NULL
-    DEFAULT NEXT VALUE FOR TicketTrackingSeq
-Go
-
-CREATE TABLE Tickets
-(
-    Id INT IDENTITY(1,1) PRIMARY KEY,
-    CompanyId INT NOT NULL FOREIGN KEY REFERENCES CompanyMaster(Id),
-    EmployeeId INT NOT NULL FOREIGN KEY REFERENCES Employees(Id),
-    LicenseId INT NOT NULL FOREIGN KEY REFERENCES LicenseTypeMaster(Id),
-    StatusId Int Not NULL FOREIGN KEY REFERENCES StatusMaster(Id),
-    CompanyAddress NVARCHAR(1000) NOT NULL,
-    Description NVARCHAR(MAX),
-    TrackingNumber INT NOT NULL,
-    ValidTill DATETIME NULL,
-    CreatedDate DATETIME  NULL DEFAULT GETDATE(),
-    CreatedBy int  FOREIGN KEY REFERENCES Employees(Id),
-    ModifiedDate DATETIME  NULL,
-    ModifiedBy int  FOREIGN KEY REFERENCES Employees(Id),
-);
-
- 
