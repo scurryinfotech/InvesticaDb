@@ -414,3 +414,13 @@ CREATE TABLE Invoice
     ModifiedBy INT  FOREIGN KEY REFERENCES Employees(Id),
     IsActive BIT NOT NULL DEFAULT(1)
 );
+
+
+
+-- From here latest command is from 24-02-2026  this is the latest 
+
+
+  Alter table Employees 
+  Add Password Nvarchar(15) NULL;
+
+Update Employees set Password = 'Jan@2026'
